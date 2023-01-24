@@ -8,20 +8,22 @@ SECRET_KEY = 'django-insecure-o(1pwno2-+s3yj@oru=h1-m6d_xkisidww1&)jallbxjyb%g^r
 
 DEBUG = os.getenv('PYTHON_DEBUG')
 
-ALLOWED_HOSTS = os.getenv('PYTHON_ALLOWED_HOSTS')
+ALLOWED_HOSTS = [os.getenv('PYTHON_ALLOWED_HOSTS')]
 
 INSTALLED_APPS = [
     # django apps
-    'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
-    'django.contrib.messages',
     'django.contrib.staticfiles',
 
     # third party apps
+    'rest_framework',
 
     # local apps
+    'apps.user',
+    'apps.authn',
+    'apps.project',
 ]
 
 MIDDLEWARE = [
@@ -30,7 +32,6 @@ MIDDLEWARE = [
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
-    'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
@@ -64,7 +65,6 @@ DATABASES = {
     }
 }
 
-
 AUTH_PASSWORD_VALIDATORS = [
     { 'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator' },
     { 'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator' },
@@ -86,3 +86,55 @@ STATIC_URL = 'static/'
 
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+
+AUTH_USER_MODEL = 'user.User'
+
+REST_FRAMEWORK = {
+    'DEFAULT_PERMISSION_CLASSES': [
+        'rest_framework.permissions.AllowAny',
+    ],
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        # 'rest_framework.authentication.BasicAuthentication',
+        # 'rest_framework.authentication.SessionAuthentication',
+    ]
+}
+
+CACHES = {
+    'default': {
+        'BACKEND': 'django_redis.cache.RedisCache',
+        'LOCATION': os.getenv('REDIS_URI'),
+        'OPTIONS': {
+            'CLIENT_CLASS': 'django_redis.client.DefaultClient',
+        },
+    },
+}
+
+# SESSION_COOKIE_DOMAIN = '.example.com'
+
+SESSION_COOKIE_NAME = 'sid'
+
+SESSION_COOKIE_HTTPONLY = True
+
+SESSION_COOKIE_SAMESITE = 'Strict'
+
+# SESSION_COOKIE_SECURE = True
+
+SESSION_ENGINE = 'django.contrib.sessions.backends.cache'
+
+
+# CSRF_COOKIE_DOMAIN = '.example.com'
+
+# CSRF_COOKIE_NAME = 'csrf'
+
+# CSRF_COOKIE_HTTPONLY = True
+
+CSRF_COOKIE_SAMESITE = 'Strict'
+
+# CSRF_COOKIE_SECURE = True
+
+# CSRF_HEADER_NAME = 'CSRF'
+
+# CSRF_USE_SESSIONS = True
+
+APPEND_SLASH = False
