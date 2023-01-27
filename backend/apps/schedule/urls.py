@@ -1,5 +1,5 @@
 from rest_framework.urls import path
 
-from apps.project import views as v
+from apps.schedule import views as v
 
 urlpatterns = []

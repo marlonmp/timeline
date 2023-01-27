@@ -24,6 +24,8 @@ INSTALLED_APPS = [
     'apps.user',
     'apps.authn',
     'apps.project',
+    'apps.schedule',
+    'apps.utils',
 ]
 
 MIDDLEWARE = [
