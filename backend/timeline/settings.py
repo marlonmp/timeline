@@ -4,7 +4,7 @@ from pathlib import Path
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-SECRET_KEY = 'django-insecure-o(1pwno2-+s3yj@oru=h1-m6d_xkisidww1&)jallbxjyb%g^r'
+SECRET_KEY = os.getenv('PYTHON_SECRET_KEY')
 
 DEBUG = os.getenv('PYTHON_DEBUG')
 
@@ -27,12 +27,16 @@ INSTALLED_APPS = [
 ]
 
 MIDDLEWARE = [
+    # django middlewares
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+
+    # third party middlewares
+    # local middlewares
 ]
 
 ROOT_URLCONF = 'timeline.urls'
