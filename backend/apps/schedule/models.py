@@ -41,11 +41,11 @@ class Schedule(models.Model):
 
     uuid = models.UUIDField(unique=True, editable=False, default=uuid4)
 
-    project = models.ForeignKey('project.Project', on_delete=models.PROTECT, related_name='schedules', null=True)
+    project = models.ForeignKey('project.Project', on_delete=models.PROTECT, related_name='schedules', null=True, blank=True)
 
-    owner = models.ForeignKey('user.User', on_delete=models.PROTECT, related_name='schedules', null=True)
+    owner = models.ForeignKey('user.User', on_delete=models.PROTECT, related_name='schedules', null=True, blank=True)
 
-    type = models.ForeignKey('project.ScheduleType', on_delete=models.PROTECT, related_name='schedules')
+    type = models.ForeignKey('schedule.ScheduleType', on_delete=models.PROTECT, related_name='schedules', null=True, blank=True)
 
     description = models.CharField(max_length=240, blank=True)
 
@@ -54,7 +54,7 @@ class Schedule(models.Model):
     created_at = models.DateTimeField(editable=False, auto_now_add=True)
 
 
-class AbstractTask(models.Model):
+class Task(models.Model):
 
     STATUS_PENDING = 'PN'
     STATUS_IN_PROGRESS = 'PG'
@@ -72,6 +72,10 @@ class AbstractTask(models.Model):
 
     uuid = models.UUIDField(unique=True, editable=False, default=uuid4)
 
+    schedule = models.ForeignKey('schedule.Schedule', on_delete=models.PROTECT, related_name='tasks')
+
+    owner = models.ForeignKey('user.User', on_delete=models.PROTECT, related_name='tasks', null=True)
+
     description = models.CharField(max_length=240, blank=True)
 
     const_time = models.DurationField(null=True, blank=True)
@@ -79,34 +83,3 @@ class AbstractTask(models.Model):
     status = models.CharField(max_length=2, choices=CHOICE_STATUS, default=STATUS_PENDING, null=True)
 
     created_at = models.DateTimeField(editable=False, auto_now_add=True)
-
-    class Meta:
-        abstract = True
-
-
-class Task(AbstractTask):
-
-    owner = models.ForeignKey('user.User', on_delete=models.PROTECT, related_name='tasks', null=True)
-
-    schedule = models.ForeignKey('project.Schedule', on_delete=models.PROTECT, related_name='tasks')
-
-    def save(self, *args, **kwargs):
-
-        attrs = kwargs.pop('task_aciton', None)
-
-        assert attrs, 'You must have a `task_action` for create or update a task'
-
-        assert attrs.get('dispatcher', None), 'You must have a `dispatcher` for create or update a task'
-
-        TaskAction(**attrs).save()
-
-        return super().save(*args, **kwargs)
-
-
-class TaskAction(AbstractTask):
-
-    owner = models.ForeignKey('user.User', on_delete=models.PROTECT, related_name='assigned_tasks', null=True)
-
-    dispatcher = models.ForeignKey('user.User', on_delete=models.PROTECT, related_name='task_actions')
-
-    task = models.ForeignKey('project.Task', on_delete=models.PROTECT, related_name='task_actions')

@@ -11,7 +11,7 @@ class ScheduleTypeList(serializers.ModelSerializer):
 
         model = m.ScheduleType
 
-        fields = ('uuid', 'name', 'description', 'created_at', 'updated_at')
+        fields = ('uuid', 'name', 'description')
 
 
 class ScheduleTypeCreate(serializers.ModelSerializer):
@@ -29,7 +29,7 @@ class ScheduleTypeRetrieve(serializers.ModelSerializer):
 
         model = m.ScheduleType
 
-        fields = ('uuid', 'name', 'description')
+        fields = ('name', 'description', 'created_at', 'updated_at')
 
 
 class ScheduleTypeUpdate(ScheduleTypeCreate):
@@ -46,13 +46,13 @@ class ScheduleList(serializers.ModelSerializer):
 
     owner = us.UserDetail()
 
-    type = ScheduleTypeRetrieve()
+    type = us.ScheduleTypeDetail()
 
     class Meta:
 
         model = m.Schedule
 
-        fields = ('uuid', 'project', 'owner', 'type', 'description', 'status', 'created_at')
+        fields = ('uuid', 'project', 'owner', 'type', 'description', 'status')
 
 
 class ScheduleCreate(serializers.ModelSerializer):
@@ -62,6 +62,21 @@ class ScheduleCreate(serializers.ModelSerializer):
         model = m.Schedule
 
         fields = ('project', 'owner', 'type', 'description')
+
+
+class ScheduleRetrieve(serializers.ModelSerializer):
+
+    project = us.ProjectDetail()
+
+    owner = us.UserDetail()
+
+    type = us.ScheduleTypeDetail()
+
+    class Meta:
+
+        model = m.Schedule
+
+        fields = ('project', 'owner', 'type', 'description', 'status', 'created_at')
 
 
 class ScheduleUpdate(serializers.ModelSerializer):
@@ -86,7 +101,7 @@ class TaskList(serializers.ModelSerializer):
 
         model = m.Task
 
-        fields = ('uuid', 'schedule', 'owner', 'description', 'const_time', 'status', 'created_at')
+        fields = ('uuid', 'schedule', 'owner', 'description', 'const_time', 'status')
 
 
 class TaskCreate(serializers.ModelSerializer):
@@ -98,6 +113,19 @@ class TaskCreate(serializers.ModelSerializer):
         fields = ('schedule', 'owner', 'description', 'const_time')
 
 
+class TaskRetrieve(serializers.ModelSerializer):
+
+    schedule = us.ScheduleDetail()
+
+    owner = us.UserDetail()
+
+    class Meta:
+
+        model = m.Task
+
+        fields = ('schedule', 'owner', 'description', 'const_time', 'status', 'created_at')
+
+
 class TaskUpdate(serializers.ModelSerializer):
 
     class Meta:
@@ -105,19 +133,3 @@ class TaskUpdate(serializers.ModelSerializer):
         model = m.Task
 
         fields = ('schedule', 'owner', 'description', 'const_time', 'status')
-
-# activities
-
-class TaskActionList(serializers.ModelSerializer):
-
-    owner = us.UserDetail()
-
-    dispatcher = us.UserDetail()
-
-    task = us.TaskDetail()
-
-    class Meta:
-
-        model = m.TaskAction
-
-        fields = ('uuid', 'owner', 'dispatcher', 'task', 'description', 'const_time', 'status', 'created_at')
