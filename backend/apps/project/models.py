@@ -38,3 +38,14 @@ class Project(models.Model):
     status = models.CharField(max_length=2, choices=CHOICE_STATUS, default=STATUS_PENDING)
 
     created_at = models.DateTimeField(editable=False, auto_now_add=True)
+
+    def delete(self, using=None, keep_parents=False):
+        # if no has schedules, delete
+        if not self.schedules.exists():
+            return super().delete(using, keep_parents)
+
+        # else change status tu deleted
+        self.status = self.STATUS_DELETED
+        self.save()
+        # return information for django
+        return 0, {self._meta.label: 0}

@@ -21,6 +21,15 @@ class ProjectCreate(serializers.ModelSerializer):
         fields = ('title', 'name', 'description', 'members')
 
 
+class ProjectRetrieve(serializers.ModelSerializer):
+
+    class Meta:
+
+        model = m.Project
+
+        fields = ('title', 'name', 'description', 'members', 'status')
+
+
 class ProjectUpdate(serializers.ModelSerializer):
 
     class Meta:
