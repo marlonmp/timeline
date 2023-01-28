@@ -6,7 +6,7 @@ from rest_framework.response import Response
 from rest_framework.exceptions import AuthenticationFailed
 from rest_framework.permissions import IsAuthenticated
 
-from apps.authn.serializers import UserCredentials
+from apps.authn import serializers as s
 
 
 class SignIn(APIView):
@@ -14,7 +14,7 @@ class SignIn(APIView):
     authentication_classes = ()
 
     def post(self, request):
-        serializer = UserCredentials(data=request.data)
+        serializer = s.UserCredentials(data=request.data)
         serializer.is_valid(raise_exception=True)
 
         user = authenticate(request, **serializer.data)
