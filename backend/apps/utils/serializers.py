@@ -7,7 +7,7 @@ from apps.schedule import models as sm
 
 class ProjectDetail(serializers.ModelSerializer):
 
-    detail = serializers.HyperlinkedIdentityField(view_name='project-detail')
+    detail = serializers.HyperlinkedIdentityField(view_name='project')
 
     class Meta:
 
@@ -18,8 +18,7 @@ class ProjectDetail(serializers.ModelSerializer):
 
 class UserDetail(serializers.ModelSerializer):
 
-    # add user retrieve view name
-    detail = serializers.HyperlinkedIdentityField(view_name='user-detail')
+    detail = serializers.HyperlinkedIdentityField(view_name='user')
 
     class Meta:
 
@@ -28,9 +27,20 @@ class UserDetail(serializers.ModelSerializer):
         fields = ('uuid', 'username', 'nickname', 'detail')
 
 
+class ScheduleTypeDetail(serializers.ModelSerializer):
+
+    detail = serializers.HyperlinkedIdentityField(view_name='schedule-type')
+
+    class Meta:
+
+        model = sm.ScheduleType
+
+        fields = ('uuid', 'name', 'description', 'detail')
+
+
 class ScheduleDetail(serializers.ModelSerializer):
 
-    detail = serializers.HyperlinkedIdentityField(view_name='schedule-detail')
+    detail = serializers.HyperlinkedIdentityField(view_name='schedule')
 
     class Meta:
 
@@ -41,7 +51,7 @@ class ScheduleDetail(serializers.ModelSerializer):
 
 class TaskDetail(serializers.ModelSerializer):
 
-    detail = serializers.HyperlinkedIdentityField(view_name='task-detail')
+    detail = serializers.HyperlinkedIdentityField(view_name='task')
 
     class Meta:
 
@@ -49,13 +59,3 @@ class TaskDetail(serializers.ModelSerializer):
 
         fields = ('uuid', 'description', 'const_time', 'detail', 'status')
 
-
-class TaskActionDetail(serializers.ModelSerializer):
-
-    detail = serializers.HyperlinkedIdentityField(view_name='task-action-detail')
-
-    class Meta:
-
-        model = sm.TaskAction
-
-        fields = ('uuid', 'description', 'const_time', 'detail', 'status')
