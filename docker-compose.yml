@@ -33,15 +33,14 @@ services:
     env_file:
       - .env
     build:
-      context: backend/
+      context: api/
       args:
         TAG: ${PYTHON_TAG}
     command: sh -c 'python manage.py runserver $PYTHON_HOST:$PYTHON_PORT'
     ports:
       - 8000:${PYTHON_PORT}
-      - 430:${PYTHON_PORT}
     volumes:
-      - ./backend:/app
+      - ./api:/app
 
 volumes:
   timeline-psql:
