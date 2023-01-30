@@ -18,7 +18,7 @@ class UserCreate(serializers.ModelSerializer):
 
         model = m.User
 
-        fields = ('username', 'nickname', 'email', 'password')
+        fields = ('username', 'nickname', 'email')
 
 
 class UserRetrieve(serializers.ModelSerializer):

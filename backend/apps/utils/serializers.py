@@ -7,7 +7,7 @@ from apps.schedule import models as sm
 
 class ProjectDetail(serializers.ModelSerializer):
 
-    detail = serializers.HyperlinkedIdentityField(view_name='project')
+    detail = serializers.HyperlinkedIdentityField(view_name='project', lookup_field='uuid')
 
     class Meta:
 
@@ -18,7 +18,7 @@ class ProjectDetail(serializers.ModelSerializer):
 
 class UserDetail(serializers.ModelSerializer):
 
-    detail = serializers.HyperlinkedIdentityField(view_name='user')
+    detail = serializers.HyperlinkedIdentityField(view_name='user', lookup_field='uuid')
 
     class Meta:
 
@@ -29,7 +29,7 @@ class UserDetail(serializers.ModelSerializer):
 
 class ScheduleTypeDetail(serializers.ModelSerializer):
 
-    detail = serializers.HyperlinkedIdentityField(view_name='schedule-type')
+    detail = serializers.HyperlinkedIdentityField(view_name='schedule-type', lookup_field='uuid')
 
     class Meta:
 
@@ -40,7 +40,7 @@ class ScheduleTypeDetail(serializers.ModelSerializer):
 
 class ScheduleDetail(serializers.ModelSerializer):
 
-    detail = serializers.HyperlinkedIdentityField(view_name='schedule')
+    detail = serializers.HyperlinkedIdentityField(view_name='schedule', lookup_field='uuid')
 
     class Meta:
 
@@ -51,7 +51,7 @@ class ScheduleDetail(serializers.ModelSerializer):
 
 class TaskDetail(serializers.ModelSerializer):
 
-    detail = serializers.HyperlinkedIdentityField(view_name='task')
+    detail = serializers.HyperlinkedIdentityField(view_name='task', lookup_field='uuid')
 
     class Meta:
 

@@ -39,7 +39,7 @@ class User(AbstractBaseUser):
 
     uuid = models.UUIDField(unique=True, editable=False, default=uuid4)
 
-    username = models.CharField(max_length=150, unique=True, editable=False)
+    username = models.CharField(max_length=150, unique=True)
 
     nickname = models.CharField(max_length=150)
 

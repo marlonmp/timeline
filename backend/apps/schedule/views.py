@@ -40,7 +40,7 @@ class ScheduleListCreate(generics.ListCreateAPIView):
     queryset = m.Schedule.objects.all()
 
     def get_serializer_class(self):
-        match self.action:
+        match self.request.method:
             case 'GET':
                 return s.ScheduleList
             case 'POST':
@@ -54,7 +54,7 @@ class ScheduleRetrieveUpdateDestroy(generics.RetrieveUpdateDestroyAPIView):
     lookup_field = 'uuid'
 
     def get_serializer_class(self):
-        match self.action:
+        match self.request.method:
             case 'GET':
                 return s.ScheduleRetrieve
             case 'PUT' | 'PATCH':
@@ -70,7 +70,7 @@ class TaskListCreate(generics.ListCreateAPIView):
     queryset = m.Task.objects.all()
 
     def get_serializer_class(self):
-        match self.action:
+        match self.request.method:
             case 'GET':
                 return s.TaskList
             case 'POST':
@@ -95,7 +95,7 @@ class TaskRetrieveUpdateDestroy(generics.RetrieveUpdateDestroyAPIView):
     lookup_field = 'uuid'
 
     def get_serializer_class(self):
-        match self.action:
+        match self.request.method:
             case 'GET':
                 return s.TaskRetrieve
             case 'PUT' | 'PATCH':

@@ -6,14 +6,13 @@ from apps.project import serializers as s, models as m
 class ProjectListCreate(generics.ListCreateAPIView):
 
     queryset = m.Project.objects.all()
-    lookup_field = 'uuid'
 
     def get_serializer_class(self):
         match self.request.method:
             case 'GET':
-                return s.ProjectCreate
-            case 'POST':
                 return s.ProjectList
+            case 'POST':
+                return s.ProjectCreate
         return None
 
 

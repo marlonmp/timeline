@@ -11,9 +11,9 @@ class UserListCreate(generics.ListCreateAPIView):
     def get_serializer_class(self):
         match self.request.method:
             case 'GET':
-                return s.UserCreate
-            case 'POST':
                 return s.UserList
+            case 'POST':
+                return s.UserCreate
         return None
 
 

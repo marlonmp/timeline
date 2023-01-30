@@ -1,4 +1,4 @@
-from rest_framework import generics
+from apps.utils import mixins
 
 from apps.user import models as um
 from apps.project import models as pm
@@ -9,80 +9,62 @@ from apps.project import views as pv
 from apps.schedule import views as sv
 
 
-class UserProjectsList(pv.ProjectListCreate):
+class UserProjectsList(mixins.ListFieldViewMixin, pv.ProjectListCreate):
 
     queryset = um.User.objects.all()
     lookup_field = 'uuid'
-
-    def get_queryset(self):
-        user = self.get_object()
-        return user.projects
+    list_field = 'projects'
 
     def post(self, *args, **kwargs):
         self.http_method_not_allowed()
 
 
-class UserSchedulesList(sv.ScheduleListCreate):
+class UserSchedulesList(mixins.ListFieldViewMixin, sv.ScheduleListCreate):
 
     queryset = um.User.objects.all()
     lookup_field = 'uuid'
-
-    def get_queryset(self):
-        user = self.get_object()
-        return user.schedules
+    list_field = 'schedules'
 
     def post(self, *args, **kwargs):
         self.http_method_not_allowed()
 
 
-class UserTasksList(sv.TaskListCreate):
+class UserTasksList(mixins.ListFieldViewMixin, sv.TaskListCreate):
 
     queryset = um.User.objects.all()
     lookup_field = 'uuid'
-
-    def get_queryset(self):
-        user = self.get_object()
-        return user.tasks
+    list_field = 'tasks'
 
     def post(self, *args, **kwargs):
         self.http_method_not_allowed()
 
 
-class ProjectMembersList(uv.UserListCreate):
+class ProjectMembersList(mixins.ListFieldViewMixin, uv.UserListCreate):
 
     queryset = pm.Project.objects.all()
     lookup_field = 'uuid'
-
-    def get_queryset(self):
-        project = self.get_object()
-        return project.members
+    list_field = 'members'
 
     def post(self, *args, **kwargs):
         self.http_method_not_allowed()
 
 
-class ProjectSchedulesListCreate(sv.ScheduleListCreate):
+class ProjectSchedulesListCreate(mixins.ListFieldViewMixin, sv.ScheduleListCreate):
 
     queryset = pm.Project.objects.all()
     lookup_field = 'uuid'
-
-    def get_queryset(self):
-        project = self.get_object()
-        return project.schedules
+    list_field = 'schedules'
 
     def post(self, request, uuid, *args, **kwargs):
         request.data['project'] = uuid
         return super().post(request, *args, **kwargs)
 
 
-class ScheduleTasksList(sv.TaskListCreate):
+class ScheduleTasksList(mixins.ListFieldViewMixin, sv.TaskListCreate):
 
     queryset = sm.Schedule.objects.all()
     lookup_field = 'uuid'
-
-    def get_queryset(self):
-        schedule = self.get_object()
-        return schedule.tasks
+    list_field = 'tasks'
 
     def post(self, *args, **kwargs):
         self.http_method_not_allowed()
