@@ -42,6 +42,23 @@ services:
     volumes:
       - ./api:/app
 
+  client:
+    container_name: timeline-client
+    image: node:${NODE_TAG}
+    depends_on:
+      - api
+    env_file:
+      - .env
+    build:
+      context: client/
+      args:
+        TAG: ${NODE_TAG}
+    command: sh -c 'yarn dev --host --port $NODE_PORT'
+    ports:
+      - 8080:${NODE_PORT}
+    volumes:
+      - ./client:/app
+
 volumes:
   timeline-psql:
   timeline-redis:
